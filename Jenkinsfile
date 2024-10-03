@@ -17,5 +17,10 @@ pipeline {
 				}
         }
 	    }
+     stage('instance health check'){
+	     sh "gcloud compute instances describe web-host --zone=us-central1-f --format='get(networkInterfaces[0].accessConfigs[0].natIP)' > dev.txt"
+             sh 'sleep 40'
+             sh 'curl http://$(cat dev.txt)'
+     }
 		}
 		}
